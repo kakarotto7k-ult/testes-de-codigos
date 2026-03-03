@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laboratório Completo do João</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        section {
+            margin: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 8px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+
+        #display {
+            width: 200px;
+            height: 35px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body> 
+ 
+    <h1 id="titulo">🔥 Menu dos links de minigames 🔥</h1>
+
+    <a href="jogo.html">Ir para Jogos</a>
+    
+
+    <h2>Mudar fundo</h2>
+    <button onclick="mudarCorClaro()">Claro☀</button>
+    <button onclick="mudarCor()">Escuro🌑</button>
+
+    <!-- 🎨 MUDAR COR -->
+    
+        <h2>Mudar Cor do Fundo</h2>
+        <button onclick="mudarCor()">Mudar Cor</button>
+    
+
+    <!-- 🎮 JOGO -->
+    
+        <h2>🎮 Adivinhe o Número</h2>
+        <p>Número entre 1 e 100</p>
+        <input type="number" id="palpite">
+        <button onclick="verificar()">Tentar</button>
+        <button onclick="reiniciarJogo()">Reiniciar</button>
+        <div id="mensagemJogo"></div>
+    
+
+    <!-- 🧮 CALCULADORA -->
+    
+        <h2>🧮 Calculadora</h2>
+        <input type="text" id="display" disabled>
+        <br>
+
+        <button onclick="add('7')">7</button>
+        <button onclick="add('8')">8</button>
+        <button onclick="add('9')">9</button>
+        <button onclick="add('/')">/</button>
+        <br>
+
+        <button onclick="add('4')">4</button>
+        <button onclick="add('5')">5</button>
+        <button onclick="add('6')">6</button>
+        <button onclick="add('*')">*</button>
+        <br>
+
+        <button onclick="add('1')">1</button>
+        <button onclick="add('2')">2</button>
+        <button onclick="add('3')">3</button>
+        <button onclick="add('-')">-</button>
+        <br>
+
+        <button onclick="add('0')">0</button>
+        <button onclick="limparCalc()">C</button>
+        <button onclick="calcular()">=</button>
+        <button onclick="add('+')">+</button>
+     
+
+    <!-- 🎮 JOGO2 -->
+    
+    <h2>✊ Pedra, Papel ou Tesoura</h2>
+
+    <button onclick="jogar('pedra')">Pedra</button>
+    <button onclick="jogar('papel')">Papel</button>
+    <button onclick="jogar('tesoura')">Tesoura</button>
+
+    <h3 id="animacao"></h3>
+    <h3 id="resultadoJogo2"></h3>
+    <h3>🧑 Você: <span id="pontosJogador">0</span></h3>
+<h3>🤖 Robô: <span id="pontosRobo">0</span></h3>
+
+    <!-- 🎮 JOGO3 -->
+
+<h2>⚡ Teste de Reflexo</h2>
+
+<button onclick="iniciarJogo()">Começar</button>
+
+<div id="areaReflexo" style="
+    width: 300px;
+    height: 150px;
+    margin: 20px auto;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+">
+    Clique em começar
+</div>
+
+<h3 id="tempoReflexo"></h3>
+
+<script>
+
+
+
+    // 🎨 MUDAR COR
+    function mudarCor() {
+    document.body.style.backgroundColor = "black";
+
+    if ("black") {
+        document.body.style.color = "white";}
+    }
+
+    function mudarCorClaro() {
+    document.body.style.backgroundColor = "white";
+
+    if ("white") {
+        document.body.style.color = "black";}
+    }
+
+    // 🎮 JOGO
+    let numeroSecreto = Math.floor(Math.random() * 100) + 1;
+
+    function verificar() {
+        let palpite = Number(document.getElementById("palpite").value);
+        let mensagem = document.getElementById("mensagemJogo");
+
+        if (palpite === numeroSecreto) {
+            mensagem.innerText = "🎉 Você acertou!";
+        } else if (palpite > numeroSecreto) {
+            mensagem.innerText = "Muito alto!";
+        } else {
+            mensagem.innerText = "Muito baixo!";
+        }
+    }
+
+    function reiniciarJogo() {
+        numeroSecreto = Math.floor(Math.random() * 100) + 1;
+        document.getElementById("mensagemJogo").innerText = "";
+        document.getElementById("palpite").value = "";
+    }
+
+    // 🧮 CALCULADORA
+    function add(valor) {
+        document.getElementById("display").value += valor;
+    }
+
+    function limparCalc() {
+        document.getElementById("display").value = "";
+    }
+
+    function calcular() {
+        let resultado = eval(document.getElementById("display").value);
+        document.getElementById("display").value = resultado;
+    }
+
+    let pontosJogador = 0;
+let pontosRobo = 0;
+
+function jogar(escolhaJogador) {
+
+    let animacao = document.getElementById("animacao");
+    let resultadoTexto = document.getElementById("resultadoJogo2");
+
+    let placarJogador = document.getElementById("pontosJogador");
+    let placarRobo = document.getElementById("pontosRobo");
+
+    let somV = document.getElementById("somVitoria");
+    let somD = document.getElementById("somDerrota");
+
+    let opcoes = ["pedra", "papel", "tesoura"];
+
+    animacao.innerText = "⏳ Jogando...";
+    resultadoTexto.innerText = "";
+
+    setTimeout(function() {
+
+        let escolhaComputador = opcoes[Math.floor(Math.random() * 3)];
+        let resultado = "";
+
+        if (escolhaJogador === escolhaComputador) {
+            resultado = "😐 Empate! Ambos escolheram " + escolhaComputador;
+        }
+        else if (
+            (escolhaJogador === "pedra" && escolhaComputador === "tesoura") ||
+            (escolhaJogador === "papel" && escolhaComputador === "pedra") ||
+            (escolhaJogador === "tesoura" && escolhaComputador === "papel")
+        ) {
+            resultado = "🎉 Você venceu! Computador escolheu " + escolhaComputador;
+            pontosJogador++;
+
+            somV.currentTime = 0;
+            somV.play().catch(() => {});
+        }
+        else {
+            resultado = "💻 Você perdeu! Computador escolheu " + escolhaComputador;
+            pontosRobo++;
+
+            somD.currentTime = 0;
+            somD.play().catch(() => {});
+        }
+
+        animacao.innerText = "";
+        resultadoTexto.innerText = resultado;
+
+        placarJogador.innerText = pontosJogador;
+        placarRobo.innerText = pontosRobo;
+
+    }, 1000);
+}
+
+let inicioTempo;
+let esperando = false;
+
+function iniciarJogo() {
+    let area = document.getElementById("areaReflexo");
+    let tempoTexto = document.getElementById("tempoReflexo");
+
+    tempoTexto.innerText = "";
+    area.style.backgroundColor = "red";
+    area.innerText = "Espere ficar verde...";
+    esperando = true;
+
+    let tempoAleatorio = Math.random() * 3000 + 1000;
+
+    setTimeout(function() {
+        area.style.backgroundColor = "green";
+        area.innerText = "CLIQUE AGORA!";
+        inicioTempo = new Date().getTime();
+        esperando = false;
+    }, tempoAleatorio);
+}
+
+document.getElementById("areaReflexo").addEventListener("click", function() {
+
+    if (!esperando && inicioTempo) {
+        let tempoFinal = new Date().getTime();
+        let resultado = tempoFinal - inicioTempo;
+
+        document.getElementById("tempoReflexo").innerText =
+            "Seu tempo foi: " + resultado + " ms";
+
+        this.style.backgroundColor = "gray";
+        this.innerText = "Clique em começar novamente";
+        inicioTempo = null;
+    }
+
+    else if (esperando) {
+        this.innerText = "😡 Muito cedo!";
+        this.style.backgroundColor = "orange";
+    }
+
+});
+
+</script>
+
+</body>
+</html>
